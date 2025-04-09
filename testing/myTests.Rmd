@@ -1,0 +1,216 @@
+---
+title: "myTests"
+author: "Alexandre Combeau"
+date: "2025-04-08"
+output:
+  pdf_document:
+    keep_tex: true
+    toc: true
+    number_sections: true
+---
+
+```{r, include=FALSE}
+library(knapsack2)
+```
+
+# Algorithme Brut Force en R
+
+```{r}
+set.seed(42)
+n <- 15
+poids <- runif(n)
+valeurs <- runif(n, 10, 20)
+poids_max <- 1
+sac_a_dos(poids, valeurs, poids_max)
+```
+
+# Algorithme Brut Force en C++
+
+```{r}
+set.seed(42)
+n <- 15
+poids <- runif(n)
+valeurs <- runif(n, 10, 20)
+poids_max <- 1
+rcpp_sac_a_dos(poids, valeurs, poids_max)
+```
+
+# Benchmark sur Brut Force
+
+```{r}
+set.seed(42)
+n <- 20
+poids <- runif(n)
+valeurs <- runif(n)
+p_max <- 2
+time1 <- system.time(sac_a_dos(poids, valeurs, p_max))
+time2 <- system.time(rcpp_sac_a_dos(poids, valeurs, p_max))
+time1[[1]]/time2[[1]]
+
+# Comparaison des performances
+library(microbenchmark)
+res <- microbenchmark(
+  sac_a_dos(poids, valeurs, p_max),       # Version R
+  rcpp_sac_a_dos(poids, valeurs, p_max),  # Version C++
+  times = 10
+)
+print(res)
+library(ggplot2)
+autoplot(res)
+```
+
+# Visualisation du temps d'exec pour C++
+
+```{r}
+n_vals <- 1:25
+temps <- numeric(length(n_vals))
+
+for (i in n_vals) {
+  n <- i
+  poids <- runif(n)
+  valeurs <- runif(n)
+  poids_max <- 1
+  
+  t0 <- Sys.time()
+  rcpp_sac_a_dos(poids, valeurs, poids_max)
+  t1 <- Sys.time()
+  
+  temps[i] <- as.numeric(difftime(t1, t0, units = "secs"))
+  
+  #cat("n =", n, "temps =", temps[i], "secondes\n")
+}
+
+# Plot du temps d'exécution
+plot(n_vals, temps, type = "b", pch = 16, col = "blue",
+     xlab = "n", ylab = "Temps (secondes)",
+     main = "Temps d'exec du code CPP en fonction de n")
+
+# Ajustement d'une courbe de régression exponentielle
+modele <- lm(log(temps + 1e-6) ~ n_vals)  # +1e-6 pour éviter log(0)
+courbe <- exp(predict(modele))
+
+lines(n_vals, courbe, col = "red", lwd = 2)
+legend("topleft", legend = c("Données", "Régression exp."),
+       col = c("blue", "red"), pch = c(16, NA), lty = c(NA, 1))
+
+```
+
+
+
+```{r, include=FALSE}
+n_vals <- 1:20 # Limite à 20 pour le code R car trop lent sinon
+temps_R <- numeric(length(n_vals))
+temps_Rcpp <- numeric(length(n_vals))
+
+# Boucle sur n
+for (i in n_vals) {
+  n <- n_vals[i]
+  poids <- runif(n)
+  valeurs <- runif(n)
+  poids_max <- 1
+  
+  # Temps code R
+  t0 <- Sys.time()
+  sac_a_dos(poids, valeurs, poids_max)
+  t1 <- Sys.time()
+  temps_R[i] <- as.numeric(difftime(t1, t0, units = "secs"))
+  
+  # Temps code C++
+  t0 <- Sys.time()
+  rcpp_sac_a_dos(poids, valeurs, poids_max)
+  t1 <- Sys.time()
+  temps_Rcpp[i] <- as.numeric(difftime(t1, t0, units = "secs"))
+}
+
+pdf("test.pdf")
+
+plot(n_vals, temps_R, type = "b", pch = 16, col = "red",
+     xlab = "n (nombre d'objets)", ylab = "Temps d'exécution (secondes)",
+     main = "R vs C++")
+lines(n_vals, temps_Rcpp, type = "b", pch = 17, col = "blue")
+legend("topleft",
+       legend = c("R", "C++"),
+       col = c("red", "blue"),
+       pch = c(16, 17),
+       lty = c(NA, NA),
+       lwd = c(NA, NA))
+dev.off()
+```
+
+# Algorithme Glouton en R
+
+```{r}
+set.seed(42)
+n <- 100000
+poids <- runif(n)
+valeurs <- runif(n, 10, 20)
+poids_max <- 10
+result <- sac_a_dos_glouton(poids, valeurs, poids_max)
+print(result$poids_total)
+print(result$valeur_totale)
+```
+
+```{r}
+set.seed(42)
+n <- 1000000
+poids <- runif(n)
+valeurs <- runif(n, 10, 20)
+poids_max <- 30
+result <- rcpp_sac_a_dos_glouton(poids, valeurs, poids_max)
+print(result$poids_total)
+print(result$valeur_totale)
+```
+
+```{r}
+library(microbenchmark)
+
+n <- 1000000
+poids <- runif(n)
+valeurs <- runif(n)
+poids_max <- 50
+
+res <- microbenchmark(
+  sac_a_dos_glouton(poids, valeurs, poids_max),       # Version R
+  rcpp_sac_a_dos_glouton(poids, valeurs, poids_max),  # Version C++
+  times = 10
+)
+print(res)
+library(ggplot2)
+autoplot(res)
+```
+
+# Contre-exemple de l'algorithme glouton
+
+```{r}
+poids <- c(20,10,30)
+valeurs <- c(100,60,120)
+poids_max <- 50
+
+efficacite <- valeurs / poids
+indices <- order(efficacite, decreasing = TRUE); indices
+poids_total <- 0
+valeur_totale <- 0
+solution <- rep(0,length(poids))
+for (i in indices) {
+  if (poids_total + poids[i] <= poids_max) {
+    solution[i] <- 1
+    poids_total <- poids_total + poids[i]
+    valeur_totale <- valeur_totale + valeurs[i]
+  }
+}
+print(poids_total)
+print(valeur_totale)
+```
+
+# Programmation dynamique
+
+```{r, include=FALSE}
+# Exemple d'utilisation
+n <- 20
+poids <- runif(n)
+valeurs <- runif(n)
+poids_max <- 10
+rcpp_sac_a_dos_dp(poids, valeurs, poids_max, 1000)
+rcpp_sac_a_dos(poids, valeurs, poids_max)
+```
+
