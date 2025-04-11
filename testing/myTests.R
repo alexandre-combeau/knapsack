@@ -1,8 +1,11 @@
 ##### Quelques tests #####
-
+## Charger un des deux Github
 devtools::install_github("Perseverantiah/Projet_algoritmique")
 devtools::install_github("alexandre-combeau/knapsack")
+
+## Charger le package
 library(knapsack)
+
 
 ## Algorithme Brut Force
 
