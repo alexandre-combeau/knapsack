@@ -21,11 +21,10 @@ rcpp_sac_a_dos <- function(poids, valeurs, poids_max) {
 #' @param poids vecteur contenant les poids des objets
 #' @param valeurs vecteur contenant les valeurs (numériques) des objets
 #' @param poids_max représente le poids maximal autorisé dans le sac
-#' @param precision represente la precision
 #' @return La solution optimale
 #' @export
-rcpp_sac_a_dos_dp <- function(poids, valeurs, poids_max, precision = 1000L) {
-    .Call(`_knapsack_rcpp_sac_a_dos_dp`, poids, valeurs, poids_max, precision)
+rcpp_sac_a_dos_dp <- function(poids, valeurs, poids_max) {
+    .Call(`_knapsack_rcpp_sac_a_dos_dp`, poids, valeurs, poids_max)
 }
 
 #' Algorithme Glouton using C++

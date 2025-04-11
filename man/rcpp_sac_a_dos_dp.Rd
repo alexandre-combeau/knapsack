@@ -4,7 +4,7 @@
 \alias{rcpp_sac_a_dos_dp}
 \title{Algorithme Dynamic Programmation using C++}
 \usage{
-rcpp_sac_a_dos_dp(poids, valeurs, poids_max, precision = 1000L)
+rcpp_sac_a_dos_dp(poids, valeurs, poids_max)
 }
 \arguments{
 \item{poids}{vecteur contenant les poids des objets}
@@ -12,8 +12,6 @@ rcpp_sac_a_dos_dp(poids, valeurs, poids_max, precision = 1000L)
 \item{valeurs}{vecteur contenant les valeurs (numériques) des objets}
 
 \item{poids_max}{représente le poids maximal autorisé dans le sac}
-
-\item{precision}{represente la precision}
 }
 \value{
 La solution optimale

@@ -7,7 +7,7 @@
 #' @param poids vecteur contenant les poids des objets
 #' @param valeurs vecteur contenant les valeurs (numériques) des objets
 #' @param poids_max représente le poids maximal autorisé dans le sac
-#' @return Une solution... optimale ?
+#' @return Une solution approchée
 #' @export
 sac_a_dos_glouton <- function(poids, valeurs, poids_max) {
   

@@ -14,7 +14,7 @@ sac_a_dos_glouton(poids, valeurs, poids_max)
 \item{poids_max}{représente le poids maximal autorisé dans le sac}
 }
 \value{
-Une solution... optimale ?
+Une solution approchée
 }
 \description{
 Algorithme prenant le meilleur rapport valeur/poids

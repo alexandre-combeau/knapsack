@@ -34,16 +34,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_sac_a_dos_dp
-List rcpp_sac_a_dos_dp(NumericVector poids, NumericVector valeurs, double poids_max, int precision);
-RcppExport SEXP _knapsack_rcpp_sac_a_dos_dp(SEXP poidsSEXP, SEXP valeursSEXP, SEXP poids_maxSEXP, SEXP precisionSEXP) {
+List rcpp_sac_a_dos_dp(NumericVector poids, NumericVector valeurs, int poids_max);
+RcppExport SEXP _knapsack_rcpp_sac_a_dos_dp(SEXP poidsSEXP, SEXP valeursSEXP, SEXP poids_maxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type poids(poidsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type valeurs(valeursSEXP);
-    Rcpp::traits::input_parameter< double >::type poids_max(poids_maxSEXP);
-    Rcpp::traits::input_parameter< int >::type precision(precisionSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_sac_a_dos_dp(poids, valeurs, poids_max, precision));
+    Rcpp::traits::input_parameter< int >::type poids_max(poids_maxSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_sac_a_dos_dp(poids, valeurs, poids_max));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -64,7 +63,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_knapsack_rcpp_hello_world", (DL_FUNC) &_knapsack_rcpp_hello_world, 0},
     {"_knapsack_rcpp_sac_a_dos", (DL_FUNC) &_knapsack_rcpp_sac_a_dos, 3},
-    {"_knapsack_rcpp_sac_a_dos_dp", (DL_FUNC) &_knapsack_rcpp_sac_a_dos_dp, 4},
+    {"_knapsack_rcpp_sac_a_dos_dp", (DL_FUNC) &_knapsack_rcpp_sac_a_dos_dp, 3},
     {"_knapsack_rcpp_sac_a_dos_glouton", (DL_FUNC) &_knapsack_rcpp_sac_a_dos_glouton, 3},
     {NULL, NULL, 0}
 };
