@@ -1,6 +1,7 @@
 ##### Quelques tests #####
 
 devtools::install_github("Perseverantiah/Projet_algoritmique")
+devtools::install_github("alexandre-combeau/knapsack")
 library(knapsack)
 
 ## Algorithme Brut Force
