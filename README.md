@@ -36,7 +36,7 @@ Nous étudions ici le **problème classique du sac à dos**, en proposant **troi
 ```library(knapsack)```
 
 ## [Exemples ](#-exemples)
-### [Algorithme Naif](#-algo)
+### [Algorithme Brut Force](#-algo)
 
 ```{r exemple_naif}
 set.seed(42)
