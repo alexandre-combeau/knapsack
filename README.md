@@ -19,20 +19,13 @@ Nous étudions ici le **problème classique du sac à dos**, en proposant **troi
 ---
 
 ## Quick Start
-Conditions préalables au développement du paquet
-Pour développer et utiliser le paquet, installez les dépendances nécessaires :
-
+### Pour développer et utiliser le paquet, installez les dépendances nécessaires :
 ```install.packages(c("Rcpp", "RcppArmadillo", "devtools", "roxygen2", "testthat"))```
-
 **NB : Il faut que vous ayez la dernière version de Rcpp**
-
 ### Pour installer le package depuis GitHub, exécutez l'une des deux commandes ci-dessous
 ```devtools::install_github("Perseverantiah/Projet_algoritmique")```
-
 ```devtools::install_github("alexandre-combeau/knapsack")```
-
 Pour pouvoir l'utiliser :
-
 ```library(knapsack)```
 
 
