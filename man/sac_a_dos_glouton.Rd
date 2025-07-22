@@ -7,11 +7,11 @@
 sac_a_dos_glouton(poids, valeurs, poids_max)
 }
 \arguments{
-\item{poids}{vecteur contenant les poids des objets}
+\item{poids}{Vecteur contenant les poids des objets}
 
-\item{valeurs}{vecteur contenant les valeurs (numériques) des objets}
+\item{valeurs}{Vecteur contenant les valeurs (numériques) des objets}
 
-\item{poids_max}{représente le poids maximal autorisé dans le sac}
+\item{poids_max}{Entier représentant le poids maximal autorisé dans le sac}
 }
 \value{
 Une solution approchée
