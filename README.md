@@ -108,8 +108,8 @@ $valeur_totale
 [1] 81756.37
 ```
 
+![Execution_Time_Glouton](https://github.com/user-attachments/assets/cfc297f7-ca78-499e-9a63-61abb88fddaf)
 ![Benchmark_Glouton](https://github.com/user-attachments/assets/e9fa16f2-3780-42ca-8150-7080012d247f)
-
 
 ### [Programmation Dynamique](#dyn)
 
