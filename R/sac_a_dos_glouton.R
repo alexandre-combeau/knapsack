@@ -4,9 +4,9 @@
 #' Sac a dos : Algorithme Glouton
 #'
 #' @description Algorithme prenant le meilleur rapport valeur/poids
-#' @param poids vecteur contenant les poids des objets
-#' @param valeurs vecteur contenant les valeurs (numériques) des objets
-#' @param poids_max représente le poids maximal autorisé dans le sac
+#' @param poids Vecteur contenant les poids des objets
+#' @param valeurs Vecteur contenant les valeurs (numériques) des objets
+#' @param poids_max Entier représentant le poids maximal autorisé dans le sac
 #' @return Une solution approchée
 #' @export
 sac_a_dos_glouton <- function(poids, valeurs, poids_max) {
