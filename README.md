@@ -57,6 +57,7 @@ $valeur_totale
 ```
 
 ![Execution_Time_Brut_Force](https://github.com/user-attachments/assets/c7af7f08-61a6-49aa-978b-49138eb45f10)
+![Benchmark_Brut_Force](https://github.com/user-attachments/assets/23c9d5b2-d842-4ab3-8456-67027899e8ec)
 
 ### [Algorithme glouton](#glouton)
 
