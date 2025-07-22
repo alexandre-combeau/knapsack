@@ -1,0 +1,169 @@
+---
+title: "myTests"
+author: "Alexandre Combeau, Mohtadi Hammami, Ninette Hounkponou"
+date: "2025-04-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+#devtools::install_github("alexandre-combeau/knapsack")
+#devtools::install_github("Perseverantiah/Projet_algoritmique")
+library(knapsack)
+```
+
+# Algorithme Brut Force
+
+```{r BRUT_FORCE_TEST}
+poids   <- c(18, 7, 14, 4, 11, 17, 12, 10, 3, 6, 15, 16, 2, 5, 20)
+valeurs <- c(31, 38, 4, 6, 16, 7, 2, 50, 3, 10, 13, 29, 12, 8, 43)
+poids_max <- 90
+sac_a_dos(poids, valeurs, poids_max)
+```
+
+## Benchmark Brut Force
+
+```{r BRUT_FORCE_BENCHMARK}
+n <- 20
+poids <- runif(n)
+valeurs <- runif(n)
+p_max <- 4
+
+# Comparaison des performances
+library(microbenchmark)
+res <- microbenchmark(
+  sac_a_dos(poids, valeurs, p_max),       # Version R
+  rcpp_sac_a_dos(poids, valeurs, p_max),  # Version C++
+  times = 10
+)
+print(res)
+library(ggplot2)
+autoplot(res)
+```
+
+## Complexité Brut Force
+
+```{r BRUT_FORCE_COMPLEXITE}
+n_vals <- 1:25
+temps_R <- numeric(length(n_vals))
+temps_Rcpp <- numeric(length(n_vals))
+
+for (i in 1:length(n_vals))
+{
+  n <- n_vals[i]
+  poids <- runif(n)
+  valeurs <- runif(n)
+  poids_max <- 1
+  
+  # Temps code R
+  t0 <- Sys.time()
+  sac_a_dos(poids, valeurs, poids_max)
+  t1 <- Sys.time()
+  temps_R[i] <- as.numeric(difftime(t1, t0, units = "secs"))
+  
+  # Temps code C++
+  t0 <- Sys.time()
+  rcpp_sac_a_dos(poids, valeurs, poids_max)
+  t1 <- Sys.time()
+  temps_Rcpp[i] <- as.numeric(difftime(t1, t0, units = "secs"))
+}
+
+plot(n_vals, temps_R, type = "b", pch = 16, col = "red",
+     xlab = "Nombre d'objets", ylab = "Temps (secondes)",
+     main = "Temps d'exécution Algo Brut Force")
+lines(n_vals, temps_Rcpp, type = "b", pch = 17, col = "blue")
+legend("topleft",
+       legend = c("R", "C++"),
+       col = c("red", "blue"),
+       pch = c(16, 17),
+       lty = c(NA, NA),
+       lwd = c(NA, NA))
+grid()
+```
+
+# Algorithme Glouton
+
+```{r GLOUTON_TEST}
+n <- 1000000
+poids <- runif(n)
+valeurs <- runif(n)
+poids_max <- 10000
+sac_a_dos_glouton(poids, valeurs, poids_max)
+rcpp_sac_a_dos_glouton(poids, valeurs, poids_max)
+```
+
+## Benchmark Glouton
+
+```{r GLOUTON_BENCHMARK}
+n <- 1000000
+poids <- runif(n)
+valeurs <- runif(n)
+poids_max <- 10000
+
+# Comparaison des performances
+res <- microbenchmark(
+  sac_a_dos_glouton(poids, valeurs, poids_max),       # Version R
+  rcpp_sac_a_dos_glouton(poids, valeurs, poids_max),  # Version C++
+  times = 10
+)
+svg("Benchmark_Glouton.svg", width = 12, height = 6)
+autoplot(res)
+dev.off()
+```
+
+## Complexité Glouton
+
+```{r GLOUTON_COMPLEXITE}
+n_vals <- 10^(seq(2, 6, length.out = 30))
+temps_R <- numeric(length(n_vals))
+temps_Rcpp <- numeric(length(n_vals))
+length_data <- integer(length(n_vals))
+
+for (i in 1:length(n_vals))
+{
+  print(n_vals[i])
+  length_data[i] <- n_vals[i]
+  
+  poids <- runif(n_vals[i])
+  valeurs <- runif(n_vals[i])
+  
+  # Execution time R
+  t0 <- Sys.time()
+  sac_a_dos_glouton(poids, valeurs, n_vals[i]/2)
+  t1 <- Sys.time()
+  temps_R[i] <- as.numeric(difftime(t1, t0, units = "secs"))
+  
+  # Execution time C++
+  t0 <- Sys.time()
+  rcpp_sac_a_dos_glouton(poids, valeurs, n_vals[i]/2)
+  t1 <- Sys.time()
+  temps_Rcpp[i] <- as.numeric(difftime(t1, t0, units = "secs"))
+}
+
+lm_R    <- lm(log(temps_R) ~ log(length_data))
+lm_Rcpp <- lm(log(temps_Rcpp) ~ log(length_data))
+
+plot(length_data, temps_R, type = "b", pch = 16, col = "red",
+     log = "xy",
+     xlab = "Nombre d'objets",
+     ylab = "Temps (secondes)",
+     main = "Temps d'exécution Algo Glouton",
+     ylim = range(c(temps_R, temps_Rcpp), finite = TRUE),
+     xlim = range(length_data, finite = TRUE))
+lines(length_data, temps_Rcpp, type = "b", pch = 17, col = "blue")
+
+# Linear prediction for R code
+y_pred_R <- exp(coef(lm_R)[1]) * length_data ^ coef(lm_R)[2]
+lines(length_data, y_pred_R, col = "black", lty = 2, lwd = 2)
+
+# Linear prediction for Rcpp code
+y_pred_Rcpp <- exp(coef(lm_Rcpp)[1]) * length_data ^ coef(lm_Rcpp)[2]
+lines(length_data, y_pred_Rcpp, col = "green", lty = 2, lwd = 2)
+
+legend("topleft",
+       legend = c(paste("R slope :", round(coef(lm_R)[2], 2)),
+                  paste("Rcpp slope :", round(coef(lm_Rcpp)[2], 2))),
+       col    = c("red", "blue"),
+       pch    = c(16, 17),
+       lty    = c(1, 1))
+grid()
+```
