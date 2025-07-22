@@ -9,8 +9,10 @@
 #' @param poids_max représente le poids maximal autorisé
 #' @return Une solution optimale ?
 #' @export
-sac_a_dos_dp <- function(poids, valeurs, poids_max) {
-  if (length(poids) != length(valeurs)) {
+sac_a_dos_dp <- function(poids, valeurs, poids_max)
+{
+  if (length(poids) != length(valeurs))
+  {
     stop("Les longueurs de poids et valeurs doivent etre egales.")
   }
   
@@ -20,13 +22,17 @@ sac_a_dos_dp <- function(poids, valeurs, poids_max) {
   # Initialiser la matrice DP : (n+1) lignes, (W+1) colonnes
   dp <- matrix(0, nrow = n + 1, ncol = W + 1)
   
-  for (i in 1:n) {
-    for (w in 1:W) {
-      if (poids[i] <= w) {
+  for (i in 1:n)
+  {
+    for (w in 1:W)
+    {
+      if (poids[i] <= w)
+      {
         # Choix : prendre ou ne pas prendre l objet i
-        dp[i + 1, w + 1] <- max(dp[i, w + 1],
-                                dp[i, w - poids[i] + 1] + valeurs[i])
-      } else {
+        dp[i + 1, w + 1] <- max(dp[i, w + 1], valeurs[i] + dp[i, w - poids[i] + 1])
+      }
+      else
+      {
         # Pas assez de place, donc on garde la solution sans l objet i
         dp[i + 1, w + 1] <- dp[i, w + 1]
       }
@@ -37,8 +43,10 @@ sac_a_dos_dp <- function(poids, valeurs, poids_max) {
   w <- W
   solution <- rep(0,n)
   poids_total <- 0.0
-  for (i in n:1) {
-    if (dp[i + 1, w + 1] != dp[i, w + 1]) {
+  for (i in n:1)
+  {
+    if (dp[i + 1, w + 1] != dp[i, w + 1])
+    {
       solution[i] <- 1
       poids_total <- poids_total + poids[i]
       w <- w - poids[i]
