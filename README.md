@@ -56,8 +56,7 @@ $valeur_totale
 [1] 229
 ```
 
-<img width="598" alt="bt" src="https://github.com/user-attachments/assets/103565ee-2e24-4b75-8d9b-c4c48d399043" />
-
+![Execution_Time_Brut_Force](https://github.com/user-attachments/assets/c7af7f08-61a6-49aa-978b-49138eb45f10)
 
 ### [Algorithme glouton](#glouton)
 
