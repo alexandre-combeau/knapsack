@@ -39,8 +39,8 @@ Nous étudions ici le **problème classique du sac à dos**, en proposant **troi
 ### [Algorithme Brut Force](#-algo)
 
 ```{r BRUT_FORCE}
-poids   <- c(18, 7, 14, 4, 11, 17, 12, 10, 3, 6, 15, 16, 2, 5, 20)
-valeurs <- c(31, 38, 4, 6, 16, 7, 2, 50, 3, 10, 13, 29, 12, 8, 43)
+poids     <- c(18, 7, 14, 4, 11, 17, 12, 10, 3, 6, 15, 16, 2, 5, 20)
+valeurs   <- c(31, 38, 4, 6, 16, 7, 2, 50, 3, 10, 13, 29, 12, 8, 43)
 poids_max <- 90
 sac_a_dos(poids, valeurs, poids_max)
 ```
