@@ -10,16 +10,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _knapsack_rcpp_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_sac_a_dos
 List rcpp_sac_a_dos(NumericVector poids, NumericVector valeurs, double poids_max);
 RcppExport SEXP _knapsack_rcpp_sac_a_dos(SEXP poidsSEXP, SEXP valeursSEXP, SEXP poids_maxSEXP) {
@@ -47,13 +37,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_sac_a_dos_glouton
-List rcpp_sac_a_dos_glouton(const NumericVector& poids, const NumericVector& valeurs, const double poids_max);
+List rcpp_sac_a_dos_glouton(const std::vector<double>& poids, const std::vector<double>& valeurs, const double poids_max);
 RcppExport SEXP _knapsack_rcpp_sac_a_dos_glouton(SEXP poidsSEXP, SEXP valeursSEXP, SEXP poids_maxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericVector& >::type poids(poidsSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type valeurs(valeursSEXP);
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type poids(poidsSEXP);
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type valeurs(valeursSEXP);
     Rcpp::traits::input_parameter< const double >::type poids_max(poids_maxSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_sac_a_dos_glouton(poids, valeurs, poids_max));
     return rcpp_result_gen;
@@ -61,7 +51,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_knapsack_rcpp_hello_world", (DL_FUNC) &_knapsack_rcpp_hello_world, 0},
     {"_knapsack_rcpp_sac_a_dos", (DL_FUNC) &_knapsack_rcpp_sac_a_dos, 3},
     {"_knapsack_rcpp_sac_a_dos_dp", (DL_FUNC) &_knapsack_rcpp_sac_a_dos_dp, 3},
     {"_knapsack_rcpp_sac_a_dos_glouton", (DL_FUNC) &_knapsack_rcpp_sac_a_dos_glouton, 3},
