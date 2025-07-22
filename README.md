@@ -1,5 +1,5 @@
 # Knapsack Problem – Problème du sac à dos 
-Auteurs : Ninette Hounkponou, Alexandre Combeau, Mohtadi Hammami
+Auteurs : Alexandre Combeau, Mohtadi Hammami, Ninette Hounkponou
 
 Ce projet a été réalisé dans le cadre du cours d’algorithmique de M2DS.
 
