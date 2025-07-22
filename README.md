@@ -39,24 +39,21 @@ Nous étudions ici le **problème classique du sac à dos**, en proposant **troi
 ### [Algorithme Brut Force](#-algo)
 
 ```{r exemple_naif}
-set.seed(42)
-n = 10
-poids <- sample(10,n)
-valeur <- sample(30,n)
-poids_max <- 20
-sac_a_dos(poids, valeur, poids_max)
+poids   <- c(18, 7, 14, 4, 11, 17, 12, 10, 3, 6, 15, 16, 2, 5, 20)
+valeurs <- c(31, 38, 4, 6, 16, 7, 2, 50, 3, 10, 13, 29, 12, 8, 43)
+poids_max <- 90
+sac_a_dos(poids, valeurs, poids_max)
 ```
 
 ```
 $combinaison
- [1] 1 1 0 0 1 0 0 1 0 1
+ [1] 1 1 0 0 1 0 0 1 0 1 0 1 1 0 1
 
 $poids_total
-[1] 20
+[1] 90
 
 $valeur_totale
-[1] 114
-
+[1] 229
 ```
 
 <img width="598" alt="bt" src="https://github.com/user-attachments/assets/103565ee-2e24-4b75-8d9b-c4c48d399043" />
